@@ -1,0 +1,26 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    
+    
+}
+
+body {
+    background-color: #aca69f;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: var(--light); 
+    margin: 0;
+    padding: 0;
+ 
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    margin: 0;
+    padding: 0;
+}
