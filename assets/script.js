@@ -12,6 +12,19 @@
 // WHEN I click on a city in the search history
 
 
+
+//global variables
+var apiKey = "d5666a25ec26e01680aa38163edf8579";
+var Container = $("#searchContainer");
+var sideContainer = $("#sideContainer")
+var searchSideBar  = $("#sideBar");
+var formSubmit = $("#formSubmit");
+var submitBtn = $("#submitBtn");
+var searchHistory =$("#searchHistory");
+var todayWeather = $("#todayWeather")
+var forecast = $("#forecast")
+
+
 //function search for a city and populate the  weather
     //show current weather
     //show future weather- 5 day forecast
@@ -36,5 +49,10 @@
     //show humidity
 
 //click search history and will populate the information again
+
+
+function formSubmit() {
+
+}
 
 
