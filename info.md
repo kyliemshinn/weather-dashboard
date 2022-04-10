@@ -19,7 +19,7 @@ this will follow the path above
 
 What each function should perform:
 
-handleformsubmit:
+///////handleformsubmit:
     (fetchcoords is called out)
     validate an input and declare the value as a variable
     send to next code and clear the search input bar

@@ -15,10 +15,12 @@
 
 //global variables
 var apiKey = "d5666a25ec26e01680aa38163edf8579";
+var rootUrl = "https://api.openweathermap.org";
+var date = $("#currentdate")
 var Container = $("#searchContainer");
 var sideContainer = $("#sideContainer")
 var searchSideBar  = $("#sideBar");
-var formSubmit = $("#formSubmit");
+var searchForm = $("#searchForm");
 var submitBtn = $("#submitBtn");
 var searchHistory =$("#searchHistory");
 var todayWeather = $("#todayWeather")
@@ -51,7 +53,51 @@ var forecast = $("#forecast")
 //click search history and will populate the information again
 
 
-function formSubmit() {
+
+//if the search form is left empty, do not continue to next function
+function formSubmit(event) {
+    event.preventDefault();
+    if(!searchForm.val()) {
+        return
+    }
+    function clearResults() {
+        searchForm.html("");
+    }
+    grabCoordinates();
+} 
+
+function getWeather(cityLocation) {
+    var {lat, lon} = cityLocation;
+    var city = cityLocation.name; 
+    var oneCallUrl = `${rootUrl}/data/2.5/onecall?lat=${lat}&lon=${lon}&exlclude={part}&APPID=${apiKey}`
+
+    fetch(oneCallUrl) 
+        .then(function (results){
+        return results.join();
+    })
+    .then(function(data) {
+        renderItems(city, data);
+    })
+}
+
+function grabCoordinates(search) {
+    var geoTagUrl =`${rootUrl}/geo/1.0/direct?q=${search}&limit={limit}&appid=${apiKey}`
+
+    fetch(geoTagUrl)
+    .then(function(results){
+        return results.json();
+    })
+    .then(function(data) {
+        if(!data[0]) {
+            alert("No Location Found...")
+        } else {
+            appendHistory(search);
+            getWeather(data[0]);
+        }
+    })
+}
+
+function appendHistory() {
 
 }
 
