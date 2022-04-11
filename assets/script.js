@@ -21,6 +21,7 @@ var Container = $("#searchContainer");
 var sideContainer = $("#sideContainer")
 var searchSideBar  = $("#sideBar");
 var searchForm = $("#searchForm");
+var cityInput = $("#search-input")
 var submitBtn = $("#submitBtn");
 var cardEl = $("#cardEl")
 var searchHistory =$("#searchHistory");
@@ -55,28 +56,20 @@ var forecastCard = $("#forecastcard")
 
 submitBtn.on("click", function(event) {
     event.preventDefault();
-    if (searchForm.val() === "") {
+    if (!cityInput.val()) {
         alert("Please Enter A City To Continue");
         return;
-    }
+    }  
+        console.log("clicked button")
+        getWeather(cityInput.val());
 
+            function clearResults() {
+                cityInput.html("");
+            }
+            grabCoordinates();
+    
+});
 
-// ///////handleformsubmit:
-//     (fetchcoords is called out)
-//     validate an input and declare the value as a variable
-//     send to next code and clear the search input bar
-
-//if the search form is left empty, do not continue to next function
-function formSubmit(event) {
-    event.preventDefault();
-    if(!searchForm.val()) {
-        return
-    }
-    function clearResults() {
-        searchForm.html("");
-    }
-    grabCoordinates();
-} 
 
 // fetchweather:
 //     (renderitems is called out)
@@ -85,12 +78,12 @@ function formSubmit(event) {
 function getWeather(cityLocation) {
     var {lat, lon} = cityLocation;
     var city = cityLocation.name; 
-    var oneCallUrl = `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exlclude={part}&APPID=${apiKey}`
+    var oneCallUrl = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&APPID=" + apiKey + "&units=imperial";
 
-    fetch(oneCallUrl) 
-        .then(function (results){
-            return results.join();
-        })
+    $.ajax({
+        url: oneCallUrl,
+        method: "GET"
+    })
         .then(function(data) {
             renderItems(data, city);
         })
@@ -101,16 +94,16 @@ function getWeather(cityLocation) {
     //     fetches api
     //     within, various functions are called to complete and render weather information
 function grabCoordinates(searchCity) {
-    var geoTagUrl =  `http://api.openweathermap.org/geo/1.0/direct?q=${searchCity}&limit=5&appid=${apiKey}`
-    fetch(geoTagUrl)
-    .then(function(results){
-        return results.json();
+    var geoTagUrl =  "https://api.openweathermap.org/data/2.5/weather?q=" + searchCity + "&APPID=" + apiKey + "&units=imperial";
+    $.ajax({
+        url: geoTagUrl,
+        method: "GET"
     })
     .then(function(data) {
         if(!data[0]) {
             alert("No Location Found...")
         } else {
-            appendHistory(searchCity);
+            //appendHistory(searchCity);
             getWeather(data[0]);
         }
     })
@@ -121,6 +114,7 @@ function grabCoordinates(searchCity) {
 //         pushes searches into [] 
 //         sets the [] and any of its contents to localstorage
 function appendHistory() {
+    
     renderSearchHistory();
 }
 
@@ -137,10 +131,11 @@ function renderSearchHistory() {
 function renderItems () {
     
 
-    renderCurrentWeather(city, data.current, data.timezone);
-    renderForecast(data.daily, data.timezone);
+    renderCurrentWeather();
+    renderForecast();
 }
 // rendercurrentwether:
+
 //     declare and define date thru js date library
 //     display the current weather data fetched from api
 //     create variables to store data from fetch req
@@ -162,7 +157,6 @@ function renderCurrentWeather() {
         tempHumidityEl.text("Humidity: " + data.main.humidity);
         tempWindSpeedEl.text("Wind Speed: " + data.wind.speed);
         tempUvIndexEl.text("UV Index: " + data);
-
         tempCardEl.attr("class", "card mb-3");
         tempcardBodyEl.addClass("class", "card-body")
 
@@ -172,7 +166,8 @@ function renderCurrentWeather() {
         cardEl.append(tempUvIndexEl);
         cardEl.append(tempReadMoreBtn);
         // resultsSectionEl.append(tempRowEl);
-        console.log(data)
+        
+    }
 }
 
 // renderforecast:
@@ -181,10 +176,10 @@ function renderCurrentWeather() {
 //     need to establish timestamps for start and end of 5 day forecast using js date library
 //     create a div and header as placeholder for the card
 //     iterate thru daily forecast data
-function renderForecast() {
+function renderForecast(searchCity) {
  
         forecastCard.empty();
-        var futureUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${searchCity}&APPID=${apiKey}&units=imperial`;
+        var futureUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + searchCity + "&APPID=" + apiKey + "&units=imperial";
         $.ajax({
             url: futureUrl,
             method: "GET"
@@ -199,37 +194,38 @@ function renderForecast() {
                 }
                 var dateStr = cityCard.date;
                 var trimmedDate = dateStr.substring(0, 10); 
-                let weatherIcon = `https:///openweathermap.org/img/w/${cityObj.icon}.png`;
+                let weatherIcon = "https:///openweathermap.org/img/w/" + cityCard.icon + ".png";
                 renderForecastCard(trimmedDate, weatherIcon, cityCard.temp, cityObj.humidity);
             }
         })
-
-    renderForecastCard();
+        
+        function renderForecastCard (date, icon, temp, humidity) {
+        
+            var fiveDayCardEl = $("<div>").attr("class", "card-body");
+            let cardDate = $("<h4>");
+            let cardIcon = $("<img>");
+            let cardTemp = $("<p>");
+            let cardHumidity = $("<p>");
+        
+            forecastCard.append(fiveDayCardEl);
+            cardDate.text(cityCard.date);
+            //cardIcon.attr("src", icon);
+            cardTemp.text("Temp: ", cityCard.date, "°F");
+            cardHumidity.text("Humidity: ", cityCard.humidity, "%");
+            
+            forecastCard.append(fiveDayCardEl);
+            fiveDayCardEl.append(cardDate);
+            fiveDayCardEl.append(cardTemp);
+            fiveDayCardEl.append(cardIcon);
+            fiveDayCardEl.append(cardHumidity);
+        }
 }
+
 // renderforecastcard:
 //     displays a forecast card given an object from api daily forecast
 //     create variables for api data
-//     create card
-function renderForecastCard () {
 
-    var fiveDayCardEl = $("<div>").attr("class", "card-body");
-    let cardDate = $("<h4>");
-    let cardIcon = $("<img>");
-    let cardTemp = $("<p>");
-    let cardHumidity = $("<p>");
-
-    cardRow.append(fiveDayCardEl);
-    cardDate.text(date);
-    cardIcon.attr("src", icon);
-    cardTemp.text(`Temp: ${temp} °F`);
-    cardHumidity.text(`Humidity: ${humidity}%`);
-    
-    forecastCard.append(fiveDayCardEl);
-    fiveDayCardEl.append(cardDate);
-    fiveDayCardEl.append(cardTemp);
-    fiveDayCardEl.append(cardIcon);
-    fiveDayCardEl.append(cardHumidity);
-}
+renderForecast();
 // inithistory:
 //     (rendersearchhistory is called out)
 //     get search history from local storage
@@ -242,4 +238,3 @@ function initHistory() {
 //     event handler for the buttons created for search history
 //     take button text to match value -- using "data attributes"
 
-}
