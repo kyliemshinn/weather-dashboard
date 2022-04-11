@@ -53,6 +53,13 @@ var forecastCard = $("#forecastcard")
 
 //click search history and will populate the information again
 
+submitBtn.on("click", function(event) {
+    event.preventDefault();
+    if (searchForm.val() === "") {
+        alert("Please Enter A City To Continue");
+        return;
+    }
+
 
 // ///////handleformsubmit:
 //     (fetchcoords is called out)
@@ -167,8 +174,7 @@ function renderCurrentWeather() {
         // resultsSectionEl.append(tempRowEl);
         console.log(data)
 }
-renderCurrentWeather();
-getWeather();
+
 // renderforecast:
 //     (renderforecastcard called out)
 //     displays 5 day forecast
@@ -206,6 +212,23 @@ function renderForecast() {
 //     create card
 function renderForecastCard () {
 
+    var fiveDayCardEl = $("<div>").attr("class", "card-body");
+    let cardDate = $("<h4>");
+    let cardIcon = $("<img>");
+    let cardTemp = $("<p>");
+    let cardHumidity = $("<p>");
+
+    cardRow.append(fiveDayCardEl);
+    cardDate.text(date);
+    cardIcon.attr("src", icon);
+    cardTemp.text(`Temp: ${temp} °F`);
+    cardHumidity.text(`Humidity: ${humidity}%`);
+    
+    forecastCard.append(fiveDayCardEl);
+    fiveDayCardEl.append(cardDate);
+    fiveDayCardEl.append(cardTemp);
+    fiveDayCardEl.append(cardIcon);
+    fiveDayCardEl.append(cardHumidity);
 }
 // inithistory:
 //     (rendersearchhistory is called out)
