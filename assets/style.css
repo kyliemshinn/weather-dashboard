@@ -39,3 +39,15 @@ h1 {
 h2 {
     font-size: large;
 }
+
+.good {
+    background-color: blue;
+}
+
+.medium {
+    background-color: yellow;
+}
+
+.severe {
+    background-color: red;
+}

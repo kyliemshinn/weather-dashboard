@@ -14,11 +14,10 @@
 
 
 //global variables
-var apiKey = "d5666a25ec26e01680aa38163edf8579";
 // var rootUrl = "https://api.openweathermap.org";
-var date = $("#currentdate")
+//var date = $("#currentdate");
 var Container = $("#searchContainer");
-var sideContainer = $("#sideContainer")
+var sideContainer = $("#sideContainer");
 var searchSideBar  = $("#sideBar");
 var searchForm = $("#searchForm");
 var cityInput = $("#search-input")
@@ -29,9 +28,10 @@ var todayWeather = $("#todayWeather")
 var forecast = $("#forecast")
 var forecastCard = $("#forecastcard")
 
+var apiKey = "d5666a25ec26e01680aa38163edf8579";
 //function search for a city and populate the  weather
-    //show current weather
-    //show future weather- 5 day forecast
+//show current weather
+//show future weather- 5 day forecast
     //append to page under the search tab
 
 //current weather conditons function
@@ -78,10 +78,10 @@ submitBtn.on("click", function(event) {
 function getWeather(cityLocation) {
     var {lat, lon} = cityLocation;
     var city = cityLocation.name; 
-    var oneCallUrl = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&APPID=" + apiKey + "&units=imperial";
+    var latLonURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apikey}`
 
     $.ajax({
-        url: oneCallUrl,
+        url: latLonURL,
         method: "GET"
     })
         .then(function(data) {
@@ -94,9 +94,9 @@ function getWeather(cityLocation) {
     //     fetches api
     //     within, various functions are called to complete and render weather information
 function grabCoordinates(searchCity) {
-    var geoTagUrl =  "https://api.openweathermap.org/data/2.5/weather?q=" + searchCity + "&APPID=" + apiKey + "&units=imperial";
+    var cityURL = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apikey}`
     $.ajax({
-        url: geoTagUrl,
+        url: cityUrl,
         method: "GET"
     })
     .then(function(data) {
@@ -153,10 +153,10 @@ function renderCurrentWeather() {
 
         tempNameEl.text(data.name);
 
-        tempTempEl.text("Temperature: " + data.main.temp);
-        tempHumidityEl.text("Humidity: " + data.main.humidity);
-        tempWindSpeedEl.text("Wind Speed: " + data.wind.speed);
-        tempUvIndexEl.text("UV Index: " + data);
+        tempTempEl.text("Temperature: " + data.current.temp);
+        tempHumidityEl.text("Humidity: " + data.current.humidity);
+        tempWindSpeedEl.text("Wind Speed: " + data.current.wind_speed);
+        tempUvIndexEl.text("UV Index: " + data.current.uvi);
         tempCardEl.attr("class", "card mb-3");
         tempcardBodyEl.addClass("class", "card-body")
 
@@ -164,7 +164,6 @@ function renderCurrentWeather() {
         cardEl.append(tempHumidityEl);
         cardEl.append(tempWindSpeedEl);
         cardEl.append(tempUvIndexEl);
-        cardEl.append(tempReadMoreBtn);
         // resultsSectionEl.append(tempRowEl);
         
     }
@@ -176,26 +175,27 @@ function renderCurrentWeather() {
 //     need to establish timestamps for start and end of 5 day forecast using js date library
 //     create a div and header as placeholder for the card
 //     iterate thru daily forecast data
-function renderForecast(searchCity) {
+function renderForecast(cityLocation) {
  
         forecastCard.empty();
-        var futureUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + searchCity + "&APPID=" + apiKey + "&units=imperial";
+        var {lat, lon} = cityLocation;
+        var forecastURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apikey}`;
         $.ajax({
-            url: futureUrl,
+            url: forecastURL,
             method: "GET"
         })
         .then(function(fiveForecast) {
-            for (var i = 0; i != fiveForecast.list.length; i+=8 ) {
+            for (var i = 0; i != fiveForecast.current.length; i+=8 ) {
                 var cityCard = {
-                    date: fiveForecast.list[i].dt_txt,
-                    icon: fiveForecast.list[i].weather[0].icon,
-                    temp: fiveForecast.list[i].main.temp,
-                    humidity: fiveForecast.list[i].main.humidity
+                    date: moment().format("MMM D, YYYY"),
+                    icon: fiveForecast.daily.weather.icon,
+                    temp: fiveForecast.daily.temp.max,
+                    humidity: fiveForecast.daily.humidity
                 }
-                var dateStr = cityCard.date;
-                var trimmedDate = dateStr.substring(0, 10); 
+                //var dateStr = cityCard.date;
+                //var trimmedDate = dateStr.substring(0, 10); 
                 let weatherIcon = "https:///openweathermap.org/img/w/" + cityCard.icon + ".png";
-                renderForecastCard(trimmedDate, weatherIcon, cityCard.temp, cityObj.humidity);
+                renderForecastCard(cityCard.date, cityCard.icon, cityCard.temp, cityCard.humidity);
             }
         })
         
