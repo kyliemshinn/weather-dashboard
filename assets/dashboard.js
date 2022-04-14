@@ -1,4 +1,4 @@
-var searchInput = document.querySelector("#cardEl");
+//var searchInput = document.querySelector("#cardEl");
 var weatherContainer=document.querySelector("#todayWeather");
 var cityInput=document.querySelector("#search-input");
 var forecastContainer = document.querySelector("#forecast");
@@ -67,6 +67,7 @@ function getCityWeather(location) {
     })
     .catch(function(err){
         console.error(err);
+        console.log(latLonURL)
     });
     
 }
@@ -85,11 +86,12 @@ function renderWeather(city, data) {
 renderCurrent(city, data.current, data.timezone);
 renderForecast(data.daily, data.timezone);
 }
-
+//city,weather,timezone
 function renderCurrent(city, weather, timezone) {
 console.log(city)
 console.log(weather)
 console.log(timezone)
+
 var date = dayjs().tz(timezone).format("M/D/YYYY");
 
 var icon = `https://openweathermap.org/img/w/${weather.weather[0].icon}.png`;
@@ -101,6 +103,7 @@ var humidity = weather.humidity;
 var wind = weather.wind_speed;
 
 var uvi = weather.uvi;
+console.log(temp)
 
 var card = document.createElement("div");
 var cardBody = document.createElement("div");
@@ -111,6 +114,8 @@ var windEl = document.createElement("p");
 var humidityEl = document.createElement("p");
 var uvIndex = document.createElement("p");
 var uvBadge = document.createElement("button");
+
+console.log(card)
 
 card.setAttribute("class", "card");
 cardBody.setAttribute("class", "card-body");
@@ -146,6 +151,7 @@ cardBody.append(uvIndex);
 
 weatherContainer.innerHTML = '';
 weatherContainer.append(card);
+console.log(uvi)
 
 }
 
@@ -238,13 +244,15 @@ function displaySearchHistory() {
      historyBtn.textContent = cities[i];
      searchHistory.append(historyBtn);
 
-    // historyBtn.addEventListener("click", getGeo());
     }
+    //historyBtn.addEventListener("click", formSubmit);
 }
 //setting button as a target- if the event target does not match the history button do not do anything(other buttons on the page)
 function searchHistoryBtns(e) {
     if (!e.target.matches('.btn-history')) {
         return;
+    } else {
+        getGeo(city);
     }
     
     var btn = e.target;
