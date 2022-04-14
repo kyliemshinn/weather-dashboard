@@ -87,7 +87,9 @@ renderForecast(data.daily, data.timezone);
 }
 
 function renderCurrent(city, weather, timezone) {
-
+console.log(city)
+console.log(weather)
+console.log(timezone)
 var date = dayjs().tz(timezone).format("M/D/YYYY");
 
 var icon = `https://openweathermap.org/img/w/${weather.weather[0].icon}.png`;
@@ -151,7 +153,7 @@ weatherContainer.append(card);
 
 
 }
-
+//getting forecast cards to show on page
 function renderCardForecast(forecast, timezone) {
     var dateTs = forecast.dt;
 
@@ -162,7 +164,7 @@ function renderCardForecast(forecast, timezone) {
     var {humidity} = forecast;
     
     var wind = forecast.wind_speed;
-    
+    //creating card elements for five cards
     var col = document.createElement("div");
     var card = document.createElement("div");
     var cardBody = document.createElement("div");
@@ -171,7 +173,7 @@ function renderCardForecast(forecast, timezone) {
     var tempEl = document.createElement("p");
     var windEl = document.createElement("p");
     var humidityEl = document.createElement("p");
-    
+    //appending each item to page in each section
     col.append(card);
     card.append(cardBody);
     cardBody.append(heading, iconEl, tempEl, windEl, humidityEl);
@@ -179,7 +181,7 @@ function renderCardForecast(forecast, timezone) {
     col.classList.add("five-day-card"); 
     card.setAttribute("class", "card bg-primary h-100 text-white");
     cardBody.setAttribute("class", "card-body p-2");
-    
+    //giving the card attributes for Bootstrap
     heading.setAttribute("class", "card-title");
     tempEl.setAttribute("class", "card-text");
     windEl.setAttribute("class", "card-text");
@@ -195,7 +197,7 @@ function renderCardForecast(forecast, timezone) {
     forecastContainer.append(col);
     
 }
-
+//creating all five of the cards in this function
 function renderForecast(dailyForecast, timezone) {
     var startDate = dayjs().tz(timezone).add(1,"day").startOf("day").unix();
     var endDate = dayjs().tz(timezone).add(6,"day").startOf("day").unix();
@@ -212,7 +214,7 @@ function renderForecast(dailyForecast, timezone) {
         }
     }
 }
-
+//getting history to go to local storage for the buttons- then call on display history 
 function searchHistoryInit() {
     var cityHistory = localStorage.getItem("citySearch")
     if(cityHistory) {
@@ -222,6 +224,7 @@ function searchHistoryInit() {
  
 }
 
+//clear the search history button, get the buttons to shift down as each a new one adds to the list
 function displaySearchHistory() {
  searchHistory.innerHTML = "";
  //show most recent search- count backwards
@@ -234,22 +237,25 @@ function displaySearchHistory() {
      historyBtn.setAttribute("data-search", cities[i]);
      historyBtn.textContent = cities[i];
      searchHistory.append(historyBtn);
- }
-}
 
+    // historyBtn.addEventListener("click", getGeo());
+    }
+}
+//setting button as a target- if the event target does not match the history button do not do anything(other buttons on the page)
 function searchHistoryBtns(e) {
     if (!e.target.matches('.btn-history')) {
         return;
-      }
+    }
     
-      var btn = e.target;
-      var city = btn.getAttribute('data-search');
-
-      getGeo(city);
+    var btn = e.target;
+    var city = btn.getAttribute('data-search');
+    
+    
+    
+    getGeo(city);
 }
 
 
 searchHistoryInit();
 submitBtn.addEventListener("click", formSubmit);
-// pastSearchButton.addEventListener("click", searchHistory);
 
