@@ -142,6 +142,7 @@ if(uvi < 3) {
     uvBadge.classList.add("btn-warning");
 } else {
     uvBadge.classList.add("btn-danger");
+}
 
 uvBadge.textContent = uvi;
 uvIndex.append(uvBadge);
@@ -262,6 +263,5 @@ function searchHistoryBtns(e) {
 }
 
 
-}
 searchHistoryInit();
 submitBtn.addEventListener("click", formSubmit);
