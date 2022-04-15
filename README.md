@@ -6,16 +6,39 @@
 
 This project is meant to create a weather app for any city that is looked up in the search bar. You start by searching for the desired city on the left side bar, and the search will populate in the remainder of the web page. It will display a large card with the current weather conditions. Underneath the main card it will display 5 future forecasts of the next five days of the weather conditions.
 
+![weatherdashboard](./assets/WeatherDashboardGif.gif)
 
-### Lessons Learned
+## Features
 
-This was  very different project from others, and was the first time utilizing API Keys. Console logging throughout the project is helpful to understand where you are at and what is working. Fixing the issues as they arise makes it easier to debug the code you are working with.
+Within this web app, there are many parts and features operating at once. The initial feature is to input a city and get back a result of the current weather, as well as the next five day weather conditions for specific features. The current weather will show a UV index with a color that is relative to the number displayed within it.
+```
+if(uvi < 3) {
+    uvBadge.classList.add("btn-success");
+} else if (uvi < 7) {
+    uvBadge.classList.add("btn-warning");
+} else {
+    uvBadge.classList.add("btn-danger");
+}
+```
+ On both the current weather and the forecast cards, there is a weather icon that resembles the weather conditions.
+ ![forecast card](./assets/forecast-card.PNG)
 
-### Author
+ Under the search input where you search a specific city, it will save to the page and create a button of past searches you have done.
+
+ ![search input](./assets/search-input-city.PNG)
+
+ Once you refresh the page it will reset the search histories.
+
+
+## Lessons Learned
+
+This was  very different project from work done in the past, as this was the first time pulling from server side APIs, and was the first time utilizing API Keys. Console logging throughout the project is helpful to understand where you are at and what is working. Fixing the issues as they arise makes it easier to debug the code you are working with. It was a great project to work with multiple server side APIs and how to generate pieces of information from each while maintaining neat and organized code.
+
+## Author
 
 Kylie Shinn
 
-* LinkedIn: ![LinkedInProfile](https://www.linkedin.com/in/kylie-shinn-18b0301b7/)
+* LinkedIn: [LinkedInProfile](https://www.linkedin.com/in/kylie-shinn-18b0301b7/)
 * Gmail: kyliemshinn@gmail.com
 
 ## License

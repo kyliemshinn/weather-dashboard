@@ -237,9 +237,10 @@ function displaySearchHistory() {
      var historyBtn = document.createElement("button");
      historyBtn.setAttribute("type", "button");
      historyBtn.setAttribute("aria-controls", "today forecast");
-     historyBtn.classList.add("history-btn", "btn-history");
+     historyBtn.classList.add("btn", "btn-success", "history-btn", "btn-history", "my-1");
 
      historyBtn.setAttribute("data-search", cities[i]);
+    //  historyBtn.setAttribute("class", "my-1")
      historyBtn.textContent = cities[i];
      searchHistory.append(historyBtn);
 
