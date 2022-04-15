@@ -2,15 +2,12 @@
     box-sizing: border-box;
 }
 
-/* :root { */
-    
-    
-/* } */
+
 
 body {
-    background-color: #aca69f;
+    background-color: #3b332a;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    color: var(--light); 
+    color: wheat; 
     margin: 0;
     padding: 0;
  
@@ -26,7 +23,7 @@ h5 {
 }
 
 h1 {
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid wheat;
     margin: 30px;
     display: flex;
     justify-content: center;

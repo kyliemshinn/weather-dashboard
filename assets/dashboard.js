@@ -1,19 +1,16 @@
-//var searchInput = document.querySelector("#cardEl");
-var weatherContainer=document.querySelector("#todayWeather");
-var cityInput=document.querySelector("#search-input");
+var searchForm = document.querySelector('#searchForm');
+var cityInput = document.querySelector("#search-input");
+var weatherContainer = document.querySelector("#todayWeather");
 var forecastContainer = document.querySelector("#forecast");
-var forecastCard = document.querySelector("#forecastcard")
-var cityForm=document.querySelector("#formSubmit");
-var pastSearchButton = document.querySelector("#pastsearch");
-var submitBtn = document.getElementById("submitBtn")
 var searchHistory = document.getElementById("searchHistory");
-var cities= [];
+
+var cities = [];
 var apiKey = "d5666a25ec26e01680aa38163edf8579";
 
+
+// Add timezone plugins to day.js
 dayjs.extend(window.dayjs_plugin_utc);
 dayjs.extend(window.dayjs_plugin_timezone);
-
-var today = moment().format('L')
 
 
 function formSubmit(e){
@@ -185,7 +182,7 @@ function renderCardForecast(forecast, timezone) {
     cardBody.append(heading, iconEl, tempEl, windEl, humidityEl);
     col.setAttribute("class", "col-md");
     col.classList.add("five-day-card"); 
-    card.setAttribute("class", "card bg-primary h-100 text-white");
+    card.setAttribute("class", "card bg-success h-100 text-white");
     cardBody.setAttribute("class", "card-body p-2");
     //giving the card attributes for Bootstrap
     heading.setAttribute("class", "card-title");
@@ -244,8 +241,8 @@ function displaySearchHistory() {
      historyBtn.textContent = cities[i];
      searchHistory.append(historyBtn);
 
+     //historyBtn.addEventListener("click", getGeo());
     }
-    //historyBtn.addEventListener("click", formSubmit);
 }
 //setting button as a target- if the event target does not match the history button do not do anything(other buttons on the page)
 function searchHistoryBtns(e) {
