@@ -61,6 +61,7 @@ function getCityWeather(location) {
     })
         .then(function(data){
             renderWeather(city, data);
+            console.log(data)
     })
     .catch(function(err){
         console.error(err);
@@ -155,7 +156,7 @@ console.log(uvi)
 
 
 
-}
+// }
 //getting forecast cards to show on page
 function renderCardForecast(forecast, timezone) {
     var dateTs = forecast.dt;
@@ -261,6 +262,6 @@ function searchHistoryBtns(e) {
 }
 
 
+}
 searchHistoryInit();
 submitBtn.addEventListener("click", formSubmit);
-
