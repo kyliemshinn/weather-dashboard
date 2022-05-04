@@ -30,9 +30,12 @@ if(uvi < 3) {
  Once you refresh the page it will reset the search histories.
 
 
-## Lessons Learned
-
-This was  very different project from work done in the past, as this was the first time pulling from server side APIs, and was the first time utilizing API Keys. Console logging throughout the project is helpful to understand where you are at and what is working. Fixing the issues as they arise makes it easier to debug the code you are working with. It was a great project to work with multiple server side APIs and how to generate pieces of information from each while maintaining neat and organized code.
+## Technologies Used
+- Open Weather APIs
+- JavaScript
+- HTML5
+- CSS 
+- Bootstrap
 
 ## Author
 
