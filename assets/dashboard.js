@@ -29,7 +29,7 @@ function formSubmit(e){
 
 
 function getGeo(city) {
-    var cityURL = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apiKey}`
+    var cityURL = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apiKey}`
    
     fetch(cityURL)
     .then(function(res){
