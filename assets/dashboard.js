@@ -12,7 +12,6 @@ var apiKey = "d5666a25ec26e01680aa38163edf8579";
 dayjs.extend(window.dayjs_plugin_utc);
 dayjs.extend(window.dayjs_plugin_timezone);
 
-
 function formSubmit(e){
     if(!cityInput.value) {
         return;
@@ -51,8 +50,6 @@ function getGeo(city) {
 function getCityWeather(location) {
     var {lat, lon} = location;
     var city = location.name;
-    console.log(location.name);
-    console.log(city);
     var latLonURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&appid=${apiKey}`;
 //fetching weather, passing through render weather
     fetch(latLonURL)
@@ -86,9 +83,6 @@ renderForecast(data.daily, data.timezone);
 }
 //city,weather,timezone
 function renderCurrent(city, weather, timezone) {
-console.log(city)
-console.log(weather)
-console.log(timezone)
 
 var date = dayjs().tz(timezone).format("M/D/YYYY");
 
@@ -113,7 +107,6 @@ var humidityEl = document.createElement("p");
 var uvIndex = document.createElement("p");
 var uvBadge = document.createElement("button");
 
-console.log(card)
 
 card.setAttribute("class", "card");
 cardBody.setAttribute("class", "card-body");
@@ -154,10 +147,6 @@ console.log(uvi)
 
 }
 
-
-
-
-// }
 //getting forecast cards to show on page
 function renderCardForecast(forecast, timezone) {
     var dateTs = forecast.dt;
@@ -231,24 +220,22 @@ function searchHistoryInit() {
 
 //clear the search history button, get the buttons to shift down as each a new one adds to the list
 function displaySearchHistory() {
- searchHistory.innerHTML = "";
- //show most recent search- count backwards
- for(var i = cities.length -1; i >= 0; i--) {
+    searchHistory.innerHTML = "";
+    //show most recent search- count backwards
+    for(var i = cities.length -1; i >= 0; i--) {
      var historyBtn = document.createElement("button");
      historyBtn.setAttribute("type", "button");
      historyBtn.setAttribute("aria-controls", "today forecast");
      historyBtn.classList.add("btn", "btn-success", "history-btn", "btn-history", "my-1");
 
      historyBtn.setAttribute("data-search", cities[i]);
-    //  historyBtn.setAttribute("class", "my-1")
      historyBtn.textContent = cities[i];
      searchHistory.append(historyBtn);
-
-     //historyBtn.addEventListener("click", getGeo());
     }
 }
 //setting button as a target- if the event target does not match the history button do not do anything(other buttons on the page)
 function searchHistoryBtns(e) {
+    e.preventDefault();
     if (!e.target.matches('.btn-history')) {
         return;
     } else {
@@ -256,12 +243,11 @@ function searchHistoryBtns(e) {
     }
     
     var btn = e.target;
-    var city = btn.getAttribute('data-search');
-    
-    
+    var city = btn.getAttribute('data-search'); 
     
     getGeo(city);
 }
+
 
 
 searchHistoryInit();
